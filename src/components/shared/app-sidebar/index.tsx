@@ -1,11 +1,11 @@
 import { Sidebar, SidebarContent, SidebarFooter, SidebarHeader, SidebarRail } from '@/components/ui/sidebar'
 import Link from 'next/link'
 import { ComponentProps } from 'react'
+import { NavItems } from './nav-items'
+import { NavUser } from './nav-user'
 
 import Logo from '@/assets/logo.svg'
 import LogoIcon from '@/assets/logo-icon.svg'
-import { NavItems } from './nav-items'
-import { NavUser } from './nav-user'
 
 type AppSidebarProps = ComponentProps<typeof Sidebar>
 
