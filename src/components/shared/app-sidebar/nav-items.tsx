@@ -1,55 +1,75 @@
+'use client';
+
 import { Separator } from '@/components/ui/separator';
-import { SidebarGroup, SidebarMenu, SidebarMenuButton, SidebarMenuItem } from '@/components/ui/sidebar'
-import { BookOpen, BookUp2, ChartArea, MessageCircle, SquareDashedBottomCode, Trophy, Users } from 'lucide-react'
+import {
+  SidebarGroup,
+  SidebarMenu,
+  SidebarMenuButton,
+  SidebarMenuItem,
+} from '@/components/ui/sidebar';
+import { useUser } from '@clerk/nextjs';
+import {
+  BookOpen,
+  BookUp2,
+  ChartArea,
+  MessageCircle,
+  SquareDashedBottomCode,
+  Trophy,
+  Users,
+} from 'lucide-react';
 import Link from 'next/link';
 
 type NavItem = {
   label: string;
   path: string;
   icon: React.ElementType;
-}
+};
 
 export const NavItems = () => {
+  const { user } = useUser();
+
+  const isAdmin = user?.publicMetadata?.role === 'admin';
+
   const navItems: NavItem[] = [
     {
       label: 'Courses',
       path: '/',
-      icon: SquareDashedBottomCode
+      icon: SquareDashedBottomCode,
     },
     {
       label: 'My courses',
       path: '/my-courses',
-      icon: BookUp2
+      icon: BookUp2,
     },
     {
       label: 'Ranking',
       path: '/ranking',
-      icon: Trophy
-    }
-  ]
+      icon: Trophy,
+    },
+  ];
 
   const adminNavItems: NavItem[] = [
     {
       label: 'Statistics',
       path: '/admin',
-      icon: ChartArea
+      icon: ChartArea,
     },
     {
       label: 'Manage courses',
       path: '/admin/courses',
-      icon: BookOpen
+      icon: BookOpen,
     },
     {
       label: 'Manage users',
       path: '/admin/users',
-      icon: Users
+      icon: Users,
     },
     {
       label: 'Manage comments',
       path: '/admin/comments',
-      icon: MessageCircle
-    }
-  ]
+      icon: MessageCircle,
+    },
+  ];
 
   const renderNavItems = (items: NavItem[]) => {
     return items.map((item) => (
@@ -69,11 +89,14 @@ export const NavItems = () => {
       <SidebarMenu>
         {renderNavItems(navItems)}
 
-        <Separator className='my-2'/>
+        {isAdmin && (
+          <>
+            <Separator className='my-2' />
 
-        {renderNavItems(adminNavItems)}
-
+            {renderNavItems(adminNavItems)}
+          </>
+        )}
       </SidebarMenu>
     </SidebarGroup>
-  )
-}
+  );
+};
